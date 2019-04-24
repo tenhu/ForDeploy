@@ -7,8 +7,14 @@ module.exports.list=(req,res,next)=>{
     if(page==null || page <= 0){
         page=1;
     }
-    Movie.paginate({},{ page: page, limit: itemperpage })
-    .then((result)=>{
+
+    let q = req.query.q != null ? req.query.q.trim() : '';
+    let propmise = q > ''?
+    Movie.paginate(
+      { $text: { $search : q } },{ score : { $meta: 'textScore' }},
+      { page: page, limit: itemperpage , sort: { score: { $meta : 'textScore'}}})
+    :Movie.paginate({}, {page: page, limit: itemperpage, sort:'title'});
+    propmise.then((result)=>{
         res.status(200).json(result);
     })
     .catch((err)=>{

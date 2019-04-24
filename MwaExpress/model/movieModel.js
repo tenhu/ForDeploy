@@ -50,5 +50,8 @@ const movieSchema = new Schema({
 
 
 });
+
+movieSchema.index({'title': 'text', 'director':'text', 'type': 'text', 'descripton': 'text'});
+
 movieSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Movies', movieSchema); 
