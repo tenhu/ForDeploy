@@ -38,6 +38,6 @@ app.get('*', (req, res) => {
      res.sendFile(html + 'index.html');
 });
 
-app.listen(3000, () => {
+app.listen(80, () => {
      console.log('Good Luck');
 });
