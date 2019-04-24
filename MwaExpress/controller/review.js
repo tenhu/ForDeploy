@@ -13,6 +13,7 @@ const index = req.body.index;
 
     if(index === 1)
     {
+        console.log("s111111111111")
       Movie.update(
        { _id: id ,"review.reviews.userName":userName}, 
        { $set: { "review.reviews.$.rate" : rate ,"review.reviews.$.comment" : comment }},
@@ -27,13 +28,15 @@ const index = req.body.index;
        
      else
      {
+        console.log("s211111111111")
 
- Movie.findOneAndUpdate(
+
+ Movie.updateOne(
      { _id: id }, 
      { $push: { "review.reviews": review  } },
     function (error, success) {
           if (error) {
-              console.log("faillllllled");
+              console.log(error);
           } else {
               console.log(success);
           }

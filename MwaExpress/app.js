@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const compression = require('compression');
 
 const movieRouter = require('./router/movie');
 const reviewRouter = require('./router/review');
@@ -11,21 +12,20 @@ const movieManagerRouter = require('./router/movie-manager');
 const jwt = require('./commons/jwt');
 const settings = require('./hidden');
 const User = require('./model/userModel');
-const compression = require('compression');
-
-const html = __dirname + '/public/';
 
 const app = express();
 mongoose.connect(settings.mongodb.connectionstring).then(result => {
      console.log("mongo ok");
      User.initAdminUser();
-   }).catch(err => {
+}).catch(err => {
      console.log(err);
-   });
+});
+
+const html = __dirname + '/public/';
 
 app.use(cors());
 app.use(compression());
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(express.static(html));
 
 app.use('/api/movie', movieRouter);
